@@ -3,7 +3,7 @@ package RIM.Banque.GestionBancaire.entity;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 //import javax.validation.constraints.Email;
 //import javax.validation.constraints.NotBlank;

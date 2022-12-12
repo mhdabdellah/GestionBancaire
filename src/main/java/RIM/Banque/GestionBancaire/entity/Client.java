@@ -16,22 +16,22 @@ public class Client implements Serializable{
      
      
 	@Id
-	 private Long code;
+	private Long code;
   
-	 private String nom;
-	 private String prenom;
-	 private String date_nais;
-	 private String civilite;
-	 private String adresse;
-	 private String tel;
-	 private String email;
+	private String nom;
+	private String prenom;
+	private String date_nais;
+	private String civilite;
+	private String adresse;
+	private String tel;
+	private String email;
 	 
-	 @OneToMany(mappedBy="client",fetch=FetchType.LAZY )
-	 //car c'est une association
-	 private Collection<Compte> comptes; 
+	@OneToMany(mappedBy="client",fetch=FetchType.LAZY )
+	//car c'est une association
+	private Collection<Compte> comptes; 
 	
 	 
-	 public Client() {
+	public Client() {
 		// TODO Auto-generated constructor stub
 	}
 
