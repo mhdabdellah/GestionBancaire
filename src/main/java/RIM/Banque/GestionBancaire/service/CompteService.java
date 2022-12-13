@@ -27,7 +27,7 @@ public class CompteService {
 
 	public  Compte getCompteByCode(Long codeCompte) {
 		// TODO Auto-generated method stub
-		return compteRepository.getById(codeCompte);
+		return compteRepository.getByCodeCompte(codeCompte);
 	}
 
 

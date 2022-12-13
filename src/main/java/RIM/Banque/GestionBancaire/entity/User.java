@@ -3,7 +3,7 @@ package RIM.Banque.GestionBancaire.entity;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.validation.constraints.*;
+// import jakar.validation.constraints.*;
 
 //import javax.validation.constraints.Email;
 //import javax.validation.constraints.NotBlank;
@@ -32,17 +32,20 @@ public class User {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @NotBlank
-  @Size(max = 20)
+  // @NotBlank
+  // @Size(max = 20)
+  @Column(length = 20)
   private String username;
 
-  @NotBlank
-  @Size(max = 50)
-  @Email
+  // @NotBlank
+  // @Size(max = 50)
+  // @Email
+  @Column(length = 50)
   private String email;
 
-  @NotBlank
-  @Size(max = 120)
+  // @NotBlank
+  // @Size(max = 120)
+  @Column(length = 120)
   private String password;
 
   @ManyToMany(fetch = FetchType.LAZY)
