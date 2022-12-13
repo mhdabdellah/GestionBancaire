@@ -15,7 +15,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+// import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 
 
@@ -23,8 +23,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 @Configuration
 @EnableWebSecurity
 //@EnableMethodSecurity(prePostEnabled = true)
-@EnableGlobalMethodSecurity(prePostEnabled = true)
-public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter  {
+// @EnableGlobalMethodSecurity(prePostEnabled = true)
+public class WebSecurityConfiguration {
 	
 	@Autowired
     private JwtAuthenticationEntryPoint authenticationEntryPoint;
@@ -51,14 +51,14 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter  {
 	 }
 
 	
-	@Bean
-	@Override
-	public AuthenticationManager authenticationManagerBean() throws Exception {
-		return super.authenticationManagerBean();
+	// @Bean
+	// @Override
+	// public AuthenticationManager authenticationManagerBean() throws Exception {
+	// 	return super.authenticationManagerBean();
 		
-	}
+	// }
 	
-	@Override
+	@Bean
     protected void configure(HttpSecurity httpSecurity) throws Exception {
 		httpSecurity.cors();
 		httpSecurity.csrf().disable()
