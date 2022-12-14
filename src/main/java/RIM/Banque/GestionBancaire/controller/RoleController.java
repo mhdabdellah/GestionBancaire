@@ -13,8 +13,9 @@ import RIM.Banque.GestionBancaire.entity.Role;
 import RIM.Banque.GestionBancaire.service.RoleService;
 
 @CrossOrigin("*")
-@RequestMapping("/rolesmangement")
 @RestController
+@RequestMapping("/rolesmangement")
+
 public class RoleController {
 	
 	@Autowired

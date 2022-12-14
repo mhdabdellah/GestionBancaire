@@ -32,6 +32,18 @@ public class CompteController {
 	
 	@Autowired
 	private CompteService compteService;
+
+	@GetMapping("/test")
+	public Object test() {
+		String test = "Hello and welcome in the test endpoint";
+		return ResponseEntity.status(HttpStatus.OK).body(test);
+	}
+
+	@GetMapping("/")
+	public Object yyy() {
+		String test = "Hello and w46ye4 w4yw4y4y the ywyey htry5";
+		return ResponseEntity.status(HttpStatus.OK).body(test);
+	}
 	
 	@PostMapping("/ouvertirCompte")
 	public Object setCompte(@RequestBody Compte compte) {

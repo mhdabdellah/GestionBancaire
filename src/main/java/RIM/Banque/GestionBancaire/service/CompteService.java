@@ -4,12 +4,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import RIM.Banque.GestionBancaire.entity.Compte;
 import RIM.Banque.GestionBancaire.repository.CompteRepository;
 
 
 @Service
+@Transactional
 public class CompteService {
 
 	
@@ -26,8 +28,8 @@ public class CompteService {
 	}
 
 	public  Compte getCompteByCode(Long codeCompte) {
-		// TODO Auto-generated method stub
-		return compteRepository.getByCodeCompte(codeCompte);
+
+		return compteRepository.findByCodeCompte(codeCompte);
 	}
 
 

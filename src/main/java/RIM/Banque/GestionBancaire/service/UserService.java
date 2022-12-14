@@ -4,13 +4,18 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+// import org.springframework.context.annotation.Bean;
+// import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import RIM.Banque.GestionBancaire.entity.Role;
 import RIM.Banque.GestionBancaire.entity.User;
 import RIM.Banque.GestionBancaire.repository.RoleRepository;
 import RIM.Banque.GestionBancaire.repository.UserRepository;
 
+@Service
+@Transactional
 public class UserService {
 	
 	@Autowired
@@ -19,8 +24,8 @@ public class UserService {
 	@Autowired
 	private RoleRepository roleRepository;
 	
-	@Autowired
-	private PasswordEncoder passwordEncoder;
+	// @Autowired
+	// private PasswordEncoder passwordEncoder;
 	
 	public User registerNewUser(User user) {
 //	public User registerNewUser(User user, boolean isAdmin) {
@@ -40,7 +45,7 @@ public class UserService {
 		Set<Role> roles = new HashSet<>();
 		roles.add(role);
 		user.setRoles(roles);
-		user.setPassword(getEncodedPassword(user.getPassword()));
+		user.setPassword(user.getPassword());
 		return userRepository.save(user);
 	}
 	
@@ -58,7 +63,7 @@ public class UserService {
 		adminUser.setUsername("Mohamed Abdellahi");
 		adminUser.setEmail("mhdabdellahi0@gmail.com");
 		
-		adminUser.setPassword(getEncodedPassword("sidi1212"));
+		adminUser.setPassword("sidi1212");
 		Set<Role> adminRoles = new HashSet<>();
 		adminRoles.add(adminRole);
 		adminUser.setRoles(adminRoles);
@@ -67,16 +72,18 @@ public class UserService {
 		User employeeUser = new User();
 		employeeUser.setUsername("Abdellahi");
 		employeeUser.setEmail("mhdabdellahi2018@gmail.com");
-		employeeUser.setPassword(getEncodedPassword("sidi1212"));
+		employeeUser.setPassword("sidi1212");
 		Set<Role> userRoles = new HashSet<>();
 		userRoles.add(userRole);
 		employeeUser.setRoles(userRoles);
 		userRepository.save(employeeUser);
 	}
 	
-	public String getEncodedPassword(String password) {
-		return passwordEncoder.encode(password);
+	// @Bean
+
+	// public String getEncodedPassword(String password) {
+	// 	return passwordEncoder.encode(password);
 		
-	}
+	// }
 
 }
