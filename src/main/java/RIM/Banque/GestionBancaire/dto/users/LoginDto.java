@@ -1,22 +1,22 @@
 package RIM.Banque.GestionBancaire.dto.users;
 
 public class LoginDto {
-	private String usernameOrEmail;
+	private String username;
     private String password;
 	public LoginDto() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public LoginDto(String usernameOrEmail, String password) {
+	public LoginDto(String username, String password) {
 		super();
-		this.usernameOrEmail = usernameOrEmail;
+		this.username = username;
 		this.password = password;
 	}
-	public String getUsernameOrEmail() {
-		return usernameOrEmail;
+	public String getUsername() {
+		return username;
 	}
-	public void setUsernameOrEmail(String usernameOrEmail) {
-		this.usernameOrEmail = usernameOrEmail;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 	public String getPassword() {
 		return password;
