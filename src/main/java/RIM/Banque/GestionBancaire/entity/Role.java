@@ -1,10 +1,15 @@
 package RIM.Banque.GestionBancaire.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 //import javax.persistence.Column;
@@ -14,34 +19,30 @@ import jakarta.persistence.Table;
 //import javax.persistence.Id;
 //import javax.persistence.Table;
 
-
-
 @Table(name = "roles")
 @Entity
 public class Role {
-	
-	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
-    @Column(length = 60)
-    private String name;
-    
-    
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+
+	@Column(length = 60)
+	private String name;
+
+	// @ManyToMany(mappedBy = "roles")
+	@ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
+	private Set<User> users = new HashSet<>();
 
 	public Role() {
 		super();
 	}
-	
-	
 
-	public Role(Long id, String name) {
-		super();
+	public Role(Long id, String name, Set<User> users) {
 		this.id = id;
 		this.name = name;
+		this.users = users;
 	}
-
-
 
 	public Long getId() {
 		return id;
@@ -57,6 +58,14 @@ public class Role {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Set<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(Set<User> users) {
+		this.users = users;
 	}
 
 }

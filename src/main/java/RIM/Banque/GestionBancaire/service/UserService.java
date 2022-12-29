@@ -25,38 +25,43 @@ import org.springframework.transaction.annotation.Transactional;
 
 import RIM.Banque.GestionBancaire.dto.users.LoginDto;
 import RIM.Banque.GestionBancaire.dto.users.ResponseLoginDto;
+import RIM.Banque.GestionBancaire.entity.Contact;
 import RIM.Banque.GestionBancaire.entity.Role;
 import RIM.Banque.GestionBancaire.entity.User;
+import RIM.Banque.GestionBancaire.repository.ContactRepository;
 import RIM.Banque.GestionBancaire.repository.RoleRepository;
 import RIM.Banque.GestionBancaire.repository.UserRepository;
 
 @Service
 @Transactional
 public class UserService implements UserDetailsService {
-	
+
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	private RoleRepository roleRepository;
-	
+
+	@Autowired
+	private ContactRepository contactRepository;
+
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
-	
+
 	public User registerNewUser(User user) {
-//	public User registerNewUser(User user, boolean isAdmin) {
-//		
-//		if(isAdmin) {
-//			Role role = roleRepository.findByName("Admin").get();
-//			Set<Role> roles = new HashSet<>();
-//			roles.add(role);
-//			user.setRoles(roles);
-//		}else {
-//			Role role = roleRepository.findByName("Employee").get();
-//			Set<Role> roles = new HashSet<>();
-//			roles.add(role);
-//			user.setRoles(roles);
-//		}
+		// public User registerNewUser(User user, boolean isAdmin) {
+		//
+		// if(isAdmin) {
+		// Role role = roleRepository.findByName("Admin").get();
+		// Set<Role> roles = new HashSet<>();
+		// roles.add(role);
+		// user.setRoles(roles);
+		// }else {
+		// Role role = roleRepository.findByName("Employee").get();
+		// Set<Role> roles = new HashSet<>();
+		// roles.add(role);
+		// user.setRoles(roles);
+		// }
 		// Role role = roleRepository.findByName("Employee").get();
 		Set<Role> roles = new HashSet<>();
 		// roles.add(role);
@@ -64,44 +69,70 @@ public class UserService implements UserDetailsService {
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		return userRepository.save(user);
 	}
-	
+
 	public void initRolesAndUser() {
 		Role adminRole = new Role();
 		adminRole.setName("Admin");
 		roleRepository.save(adminRole);
-		
+
 		Role userRole = new Role();
 		userRole.setName("Employee");
 		roleRepository.save(userRole);
-		
-		
+
+		Contact mohamedContact1 = new Contact();
+		mohamedContact1.setEmail("mohamed1@gmail.com");
+		mohamedContact1.setTelephone("26262626");
+		contactRepository.save(mohamedContact1);
+
+		Contact mohamedContact2 = new Contact();
+		mohamedContact2.setEmail("mohamed2@gmail.com");
+		mohamedContact2.setTelephone("22262626");
+		contactRepository.save(mohamedContact2);
+
+		Contact abdellahiContact2 = new Contact();
+		abdellahiContact2.setEmail("abdellahi2@gmail.com");
+		abdellahiContact2.setTelephone("28262626");
+		contactRepository.save(abdellahiContact2);
+
+		Contact abdellahiContact1 = new Contact();
+		mohamedContact1.setEmail("abdellahi1@gmail.com");
+		mohamedContact1.setTelephone("27262626");
+		contactRepository.save(abdellahiContact1);
+
 		User adminUser = new User();
 		adminUser.setUsername("Mohamed");
-		adminUser.setEmail("mhdabdellahi0@gmail.com");
-		
+
 		adminUser.setPassword(bCryptPasswordEncoder.encode("sidi1212"));
 		Set<Role> adminRoles = new HashSet<>();
 		adminRoles.add(adminRole);
 		adminUser.setRoles(adminRoles);
+		Set<Contact> mohamedContacts = new HashSet<>();
+		mohamedContacts.add(mohamedContact1);
+		mohamedContacts.add(mohamedContact2);
+		adminUser.setContacts(mohamedContacts);
 		userRepository.save(adminUser);
-		
+
 		User employeeUser = new User();
 		employeeUser.setUsername("Abdellahi");
-		employeeUser.setEmail("mhdabdellahi2018@gmail.com");
 		employeeUser.setPassword(bCryptPasswordEncoder.encode("sidi1212"));
 		Set<Role> userRoles = new HashSet<>();
 		userRoles.add(userRole);
 		employeeUser.setRoles(userRoles);
+		Set<Contact> abdellahiContacts = new HashSet<>();
+		abdellahiContacts.add(abdellahiContact1);
+		abdellahiContacts.add(abdellahiContact2);
+		employeeUser.setContacts(abdellahiContacts);
 		userRepository.save(employeeUser);
 	}
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		User user = userRepository.findByUsername(username);
-		if(user == null){
+		if (user == null) {
 			throw new UsernameNotFoundException("Invalid UserName Or Password");
-		}else{
-			return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), mapToGrantedAuthorities(user.getRoles()));
+		} else {
+			return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
+					mapToGrantedAuthorities(user.getRoles()));
 		}
 	}
 
@@ -114,23 +145,31 @@ public class UserService implements UserDetailsService {
 		return userRepository.findAll();
 	}
 
-    public ResponseLoginDto login(LoginDto loginUser) {
-		String authString = loginUser.getUsername() + ":" + loginUser.getPassword();
-		byte[] authEncBytes = Base64.getEncoder().encode(authString.getBytes());
-		String basicAuthToken = "Basic " + new String(authEncBytes);
+	public ResponseLoginDto login(LoginDto loginUser) {
+		UserDetails userDetails = loadUserByUsername(loginUser.getUsername());
+		User user = userRepository.findByUsername(loginUser.getUsername());
+		if (userDetails == null) {
+			throw new UsernameNotFoundException("Invalid UserName Or Password");
+		} else {
+			String authString = loginUser.getUsername() + ":" + loginUser.getPassword();
+			byte[] authEncBytes = Base64.getEncoder().encode(authString.getBytes());
+			String basicAuthToken = "Basic " + new String(authEncBytes);
 
-		ResponseLoginDto responseAfterLogin = new ResponseLoginDto();
-		responseAfterLogin.setUsername(loginUser.getUsername());
-		responseAfterLogin.setEmail(basicAuthToken);
-		responseAfterLogin.setToken(basicAuthToken);
-		// httpRequest.setHeader("Authorization", basicAuth);
-        return responseAfterLogin;
-    }
-	
+			ResponseLoginDto responseAfterLogin = new ResponseLoginDto();
+			responseAfterLogin.setUsername(user.getUsername());
+			responseAfterLogin.setEmail(user.getEmail());
+			responseAfterLogin.setToken(basicAuthToken);
+			// httpRequest.setHeader("Authorization", basicAuth);
+			return responseAfterLogin;
+
+		}
+
+	}
+
 	// @Bean
 	// public String getEncodedPassword(String password) {
-	// 	return bCryptPasswordEncoder.encode(password);
-		
+	// return bCryptPasswordEncoder.encode(password);
+
 	// }
 
 }

@@ -23,41 +23,38 @@ import RIM.Banque.GestionBancaire.service.UserService;
 @EnableWebSecurity
 public class SpringSecurityConfiguration {
 
-
     @Autowired
     UserService userService;
 
     @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder(){
-      return new BCryptPasswordEncoder();
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
     }
     // @Autowired
     // BCryptPasswordEncoder bCryptPasswordEncoder;
 
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        
+
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.csrf().disable().cors().disable()
-            .authorizeHttpRequests()
-            // .requestMatchers("users/registerNewUser").permitAll()
-            // .anyRequest().authenticated()
-            .anyRequest().permitAll()
-            .and().httpBasic();
+                .authorizeHttpRequests()
+                // .requestMatchers("/users/getAllUsers").permitAll()
+                .requestMatchers("/users/login", "/users/getAllUsers").permitAll()
+                .anyRequest().authenticated()
+                // .anyRequest().permitAll()
+                .and().httpBasic();
 
         return http.build();
     }
 
     @Bean
-    public AuthenticationManager authManager(HttpSecurity httpSecurity) throws Exception{
+    public AuthenticationManager authManager(HttpSecurity httpSecurity) throws Exception {
 
         return httpSecurity
-                    .getSharedObject(AuthenticationManagerBuilder.class)
-                    .userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder()).and().build();
-        
+                .getSharedObject(AuthenticationManagerBuilder.class)
+                .userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder()).and().build();
+
     }
 
-    
 }
-

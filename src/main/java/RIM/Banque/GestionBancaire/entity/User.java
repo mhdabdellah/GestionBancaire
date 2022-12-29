@@ -22,11 +22,10 @@ import java.util.Set;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "users",
-       uniqueConstraints = {
-           @UniqueConstraint(columnNames = "username"),
-           @UniqueConstraint(columnNames = "email")
-       })
+@Table(name = "users", uniqueConstraints = {
+    @UniqueConstraint(columnNames = "username"),
+    @UniqueConstraint(columnNames = "email")
+})
 public class User {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,19 +47,33 @@ public class User {
   @Column(length = 120)
   private String password;
 
-  @ManyToMany(fetch = FetchType.LAZY)
-  @JoinTable(name = "user_roles", 
-             joinColumns = @JoinColumn(name = "user_id"),
-             inverseJoinColumns = @JoinColumn(name = "role_id"))
+  @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+  // @JoinTable(name = "users_roles", joinColumns = {
+  // @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false,
+  // updatable = false) }, inverseJoinColumns = {
+  // @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false,
+  // updatable = false) })
+  @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
   private Set<Role> roles = new HashSet<>();
+
+  @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
+  private Set<Contact> contacts = new HashSet<>();
+
+  @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
+  private Set<Compte> comptes = new HashSet<>();
 
   public User() {
   }
 
-  public User(String username, String email, String password) {
+  public User(Long id, String username, String email, String password, Set<Role> roles, Set<Contact> contacts,
+      Set<Compte> comptes) {
+    this.id = id;
     this.username = username;
     this.email = email;
     this.password = password;
+    this.roles = roles;
+    this.contacts = contacts;
+    this.comptes = comptes;
   }
 
   public Long getId() {
@@ -102,4 +115,21 @@ public class User {
   public void setRoles(Set<Role> roles) {
     this.roles = roles;
   }
+
+  public Set<Contact> getContacts() {
+    return contacts;
+  }
+
+  public void setContacts(Set<Contact> contacts) {
+    this.contacts = contacts;
+  }
+
+  public Set<Compte> getComptes() {
+    return comptes;
+  }
+
+  public void setComptes(Set<Compte> comptes) {
+    this.comptes = comptes;
+  }
+
 }
