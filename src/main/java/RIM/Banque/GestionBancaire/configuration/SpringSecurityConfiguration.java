@@ -40,7 +40,7 @@ public class SpringSecurityConfiguration {
         http.csrf().disable().cors().disable()
                 .authorizeHttpRequests()
                 // .requestMatchers("/users/getAllUsers").permitAll()
-                .requestMatchers("/users/login", "/users/getAllUsers").permitAll()
+                .requestMatchers("/users/login", "/users/getAllUsers", "/users/registerNewUser").permitAll()
                 .anyRequest().authenticated()
                 // .anyRequest().permitAll()
                 .and().httpBasic();

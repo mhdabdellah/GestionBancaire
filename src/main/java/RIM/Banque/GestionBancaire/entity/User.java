@@ -24,7 +24,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "users", uniqueConstraints = {
     @UniqueConstraint(columnNames = "username"),
-    @UniqueConstraint(columnNames = "email")
+// @UniqueConstraint(columnNames = "email")
 })
 public class User {
   @Id
@@ -39,8 +39,11 @@ public class User {
   // @NotBlank
   // @Size(max = 50)
   // @Email
-  @Column(length = 50)
-  private String email;
+  @Column(length = 30)
+  private String firstName;
+
+  @Column(length = 30)
+  private String lastName;
 
   // @NotBlank
   // @Size(max = 120)
@@ -65,11 +68,12 @@ public class User {
   public User() {
   }
 
-  public User(Long id, String username, String email, String password, Set<Role> roles, Set<Contact> contacts,
-      Set<Compte> comptes) {
+  public User(Long id, String username, String firstName, String lastName, String password, Set<Role> roles,
+      Set<Contact> contacts, Set<Compte> comptes) {
     this.id = id;
     this.username = username;
-    this.email = email;
+    this.firstName = firstName;
+    this.lastName = lastName;
     this.password = password;
     this.roles = roles;
     this.contacts = contacts;
@@ -92,12 +96,28 @@ public class User {
     this.username = username;
   }
 
-  public String getEmail() {
-    return email;
+  // public String getEmail() {
+  // return email;
+  // }
+
+  // public void setEmail(String email) {
+  // this.email = email;
+  // }
+
+  public String getFirstName() {
+    return firstName;
   }
 
-  public void setEmail(String email) {
-    this.email = email;
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
+  }
+
+  public String getLastName() {
+    return lastName;
+  }
+
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
   }
 
   public String getPassword() {

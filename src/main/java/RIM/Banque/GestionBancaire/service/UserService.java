@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import RIM.Banque.GestionBancaire.dto.users.LoginDto;
+import RIM.Banque.GestionBancaire.dto.users.RegisterDto;
 import RIM.Banque.GestionBancaire.dto.users.ResponseLoginDto;
 import RIM.Banque.GestionBancaire.entity.Contact;
 import RIM.Banque.GestionBancaire.entity.Role;
@@ -48,7 +49,7 @@ public class UserService implements UserDetailsService {
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-	public User registerNewUser(User user) {
+	public User registerNewUser(RegisterDto registerDto) {
 		// public User registerNewUser(User user, boolean isAdmin) {
 		//
 		// if(isAdmin) {
@@ -63,10 +64,23 @@ public class UserService implements UserDetailsService {
 		// user.setRoles(roles);
 		// }
 		// Role role = roleRepository.findByName("Employee").get();
+		User user = new User();
 		Set<Role> roles = new HashSet<>();
+		Set<Contact> contacts = new HashSet<>();
+		Contact contact = new Contact();
+		contact.setEmail(registerDto.getEmail());
+		contact.setTelephone(registerDto.getPhone());
+
+		contacts.add(contact);
 		// roles.add(role);
+		user.setUsername(registerDto.getUsername());
+		user.setFirstName(registerDto.getFirstName());
+		user.setLastName(registerDto.getLastName());
+		user.setContacts(contacts);
 		user.setRoles(roles);
-		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+		user.setPassword(bCryptPasswordEncoder.encode(registerDto.getPassword()));
+		contact.setClient(user);
+		contactRepository.save(contact);
 		return userRepository.save(user);
 	}
 
@@ -157,7 +171,8 @@ public class UserService implements UserDetailsService {
 
 			ResponseLoginDto responseAfterLogin = new ResponseLoginDto();
 			responseAfterLogin.setUsername(user.getUsername());
-			responseAfterLogin.setEmail(user.getEmail());
+			// List<Contact> contact = user.getContacts();
+			// responseAfterLogin.setEmail(user.getEmail());
 			responseAfterLogin.setToken(basicAuthToken);
 			// httpRequest.setHeader("Authorization", basicAuth);
 			return responseAfterLogin;

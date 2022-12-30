@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import RIM.Banque.GestionBancaire.dto.users.LoginDto;
+import RIM.Banque.GestionBancaire.dto.users.RegisterDto;
 import RIM.Banque.GestionBancaire.dto.users.ResponseLoginDto;
 import RIM.Banque.GestionBancaire.entity.User;
 import RIM.Banque.GestionBancaire.service.UserService;
@@ -31,10 +32,10 @@ public class UserController {
 		userService.initRolesAndUser();
 	}
 
-	@PostMapping({ "registerNewUser" })
-	public ResponseEntity<User> registerUser(@RequestBody User user) {
+	@PostMapping("registerNewUser")
+	public ResponseEntity<User> registerUser(@RequestBody RegisterDto registerDto) {
 		// return userService.registerNewUser(user);
-		return ResponseEntity.ok().body(userService.registerNewUser(user));
+		return ResponseEntity.ok().body(userService.registerNewUser(registerDto));
 	}
 
 	@PostMapping("login")
