@@ -50,29 +50,22 @@ public class UserService implements UserDetailsService {
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	public User registerNewUser(RegisterDto registerDto) {
-		// public User registerNewUser(User user, boolean isAdmin) {
-		//
-		// if(isAdmin) {
-		// Role role = roleRepository.findByName("Admin").get();
-		// Set<Role> roles = new HashSet<>();
-		// roles.add(role);
-		// user.setRoles(roles);
-		// }else {
-		// Role role = roleRepository.findByName("Employee").get();
-		// Set<Role> roles = new HashSet<>();
-		// roles.add(role);
-		// user.setRoles(roles);
-		// }
-		// Role role = roleRepository.findByName("Employee").get();
-		User user = new User();
 		Set<Role> roles = new HashSet<>();
+		if (registerDto.getIsAdmin()) {
+			Role role = roleRepository.findByName("Admin").get();
+			roles.add(role);
+		} else {
+			Role role = roleRepository.findByName("Client").get();
+			roles.add(role);
+		}
+		User user = new User();
+
 		Set<Contact> contacts = new HashSet<>();
 		Contact contact = new Contact();
 		contact.setEmail(registerDto.getEmail());
 		contact.setTelephone(registerDto.getPhone());
 
 		contacts.add(contact);
-		// roles.add(role);
 		user.setUsername(registerDto.getUsername());
 		user.setFirstName(registerDto.getFirstName());
 		user.setLastName(registerDto.getLastName());
@@ -85,13 +78,13 @@ public class UserService implements UserDetailsService {
 	}
 
 	public void initRolesAndUser() {
-		Role adminRole = new Role();
-		adminRole.setName("Admin");
-		roleRepository.save(adminRole);
+		Role admin = new Role();
+		admin.setName("Admin");
+		roleRepository.save(admin);
 
-		Role userRole = new Role();
-		userRole.setName("Employee");
-		roleRepository.save(userRole);
+		Role client = new Role();
+		client.setName("Client");
+		roleRepository.save(client);
 
 		Contact mohamedContact1 = new Contact();
 		mohamedContact1.setEmail("mohamed1@gmail.com");
@@ -118,7 +111,7 @@ public class UserService implements UserDetailsService {
 
 		adminUser.setPassword(bCryptPasswordEncoder.encode("sidi1212"));
 		Set<Role> adminRoles = new HashSet<>();
-		adminRoles.add(adminRole);
+		adminRoles.add(admin);
 		adminUser.setRoles(adminRoles);
 		Set<Contact> mohamedContacts = new HashSet<>();
 		mohamedContacts.add(mohamedContact1);
@@ -130,7 +123,7 @@ public class UserService implements UserDetailsService {
 		employeeUser.setUsername("Abdellahi");
 		employeeUser.setPassword(bCryptPasswordEncoder.encode("sidi1212"));
 		Set<Role> userRoles = new HashSet<>();
-		userRoles.add(userRole);
+		userRoles.add(client);
 		employeeUser.setRoles(userRoles);
 		Set<Contact> abdellahiContacts = new HashSet<>();
 		abdellahiContacts.add(abdellahiContact1);

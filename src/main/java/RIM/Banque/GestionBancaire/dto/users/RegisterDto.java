@@ -7,6 +7,7 @@ public class RegisterDto {
 	private String email;
 	private String phone;
 	private String password;
+	private boolean isAdmin;
 
 	public RegisterDto() {
 		super();
@@ -21,6 +22,17 @@ public class RegisterDto {
 		this.email = email;
 		this.phone = phone;
 		this.password = password;
+	}
+
+	public RegisterDto(String firstName, String lastName, String username, String email, String phone, String password,
+			boolean isAdmin) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.username = username;
+		this.email = email;
+		this.phone = phone;
+		this.password = password;
+		this.isAdmin = isAdmin;
 	}
 
 	public String getFirstName() {
@@ -69,6 +81,14 @@ public class RegisterDto {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public boolean getIsAdmin() {
+		return isAdmin;
+	}
+
+	public void setIsAdmin(boolean isAdmin) {
+		this.isAdmin = isAdmin;
 	}
 
 }
