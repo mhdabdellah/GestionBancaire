@@ -37,6 +37,7 @@ import RIM.Banque.GestionBancaire.repository.UserRepository;
 @Transactional
 public class UserService implements UserDetailsService {
 
+
 	@Autowired
 	private UserRepository userRepository;
 

@@ -2,6 +2,7 @@ package RIM.Banque.GestionBancaire.controller;
 
 import java.util.List;
 
+import RIM.Banque.GestionBancaire.repository.CompteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,14 +31,12 @@ import RIM.Banque.GestionBancaire.service.CompteService;
 @RequestMapping("/comptesmangement")
 public class CompteController {
 	
+
 	@Autowired
 	private CompteService compteService;
 
-	@GetMapping("/test")
-	public Object test() {
-		String test = "Hello and welcome in the test endpoint";
-		return ResponseEntity.status(HttpStatus.OK).body(test);
-	}
+
+
 
 	@GetMapping("/")
 	public Object yyy() {
@@ -49,6 +48,11 @@ public class CompteController {
 	public Object setCompte(@RequestBody Compte compte) {
 		compteService.save(compte);
 		return ResponseEntity.status(HttpStatus.OK).body("la compte est bien Cree");
+	}
+	@GetMapping("/searchcompte")
+	public Object searchcompte(Long codecompte) {
+		Compte compte =compteService.getCompteByCode(codecompte);
+		return ResponseEntity.status(HttpStatus.OK).body(compte);
 	}
 	
 	
@@ -87,7 +91,7 @@ public class CompteController {
 		double finalSold =  curentSolde + operationDto.getMontant();
 		compte.setSolde(finalSold);
 		compteService.save(compte);
-		return ResponseEntity.status(HttpStatus.OK).body("la compte est bien Cree");
+		return ResponseEntity.status(HttpStatus.OK).body("la compte est bien ajoute");
 	}
 	
 	@PostMapping("/virementMontant")// codeCompte montant date => historique  VersementDto

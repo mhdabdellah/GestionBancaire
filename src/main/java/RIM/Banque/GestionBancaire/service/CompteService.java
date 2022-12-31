@@ -20,6 +20,7 @@ public class CompteService {
 	
 	
 	public void save(Compte compte) {
+
 		compteRepository.save(compte);
 	}
 	
@@ -28,9 +29,11 @@ public class CompteService {
 	}
 
 	public  Compte getCompteByCode(Long codeCompte) {
-
-		return compteRepository.findByCodeCompte(codeCompte);
+		Compte compte= compteRepository.findByCodeCompte(codeCompte);
+		if(compte==null) throw new RuntimeException("Compte est introuvable");
+		return compte;
 	}
+
 
 
 }
