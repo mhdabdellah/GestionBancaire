@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import RIM.Banque.GestionBancaire.entity.*;
+import RIM.Banque.GestionBancaire.repository.CompteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 // import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.GrantedAuthority;
@@ -26,9 +28,6 @@ import org.springframework.transaction.annotation.Transactional;
 import RIM.Banque.GestionBancaire.dto.users.LoginDto;
 import RIM.Banque.GestionBancaire.dto.users.RegisterDto;
 import RIM.Banque.GestionBancaire.dto.users.ResponseLoginDto;
-import RIM.Banque.GestionBancaire.entity.Contact;
-import RIM.Banque.GestionBancaire.entity.Role;
-import RIM.Banque.GestionBancaire.entity.User;
 import RIM.Banque.GestionBancaire.repository.ContactRepository;
 import RIM.Banque.GestionBancaire.repository.RoleRepository;
 import RIM.Banque.GestionBancaire.repository.UserRepository;
@@ -48,6 +47,8 @@ public class UserService implements UserDetailsService {
 
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	@Autowired
+	private CompteRepository compteRepository;
 
 	public User registerNewUser(RegisterDto registerDto) {
 		Set<Role> roles = new HashSet<>();
@@ -59,7 +60,7 @@ public class UserService implements UserDetailsService {
 			roles.add(role);
 		}
 		User user = new User();
-
+		Compte compte = new Compte();
 		Set<Contact> contacts = new HashSet<>();
 		Contact contact = new Contact();
 		contact.setEmail(registerDto.getEmail());
@@ -73,8 +74,14 @@ public class UserService implements UserDetailsService {
 		user.setRoles(roles);
 		user.setPassword(bCryptPasswordEncoder.encode(registerDto.getPassword()));
 		contact.setClient(user);
+
 		contactRepository.save(contact);
+//		userRepository.
+		compte.setClient(user);
+		compte.setStatuesCompte(StatuesCompte.CREATED);
+		compteRepository.save(compte);
 		return userRepository.save(user);
+
 	}
 
 	public void initRolesAndUser() {

@@ -19,6 +19,8 @@ import java.util.Set;
 //import javax.persistence.Table;
 //import javax.persistence.UniqueConstraint;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -128,6 +130,7 @@ public class User {
     this.password = password;
   }
 
+  @JsonBackReference
   public Set<Role> getRoles() {
     return roles;
   }
@@ -136,6 +139,7 @@ public class User {
     this.roles = roles;
   }
 
+  @JsonManagedReference
   public Set<Contact> getContacts() {
     return contacts;
   }
@@ -144,6 +148,7 @@ public class User {
     this.contacts = contacts;
   }
 
+  @JsonManagedReference
   public Set<Compte> getComptes() {
     return comptes;
   }

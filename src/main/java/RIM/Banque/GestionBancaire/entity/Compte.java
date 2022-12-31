@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 //import jakarta.persistence.CascadeType;
@@ -30,8 +31,8 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "compte")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "TYPE_CPTE", discriminatorType = DiscriminatorType.STRING, length = 2)
+//@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+//@DiscriminatorColumn(name = "TYPE_CPTE", discriminatorType = DiscriminatorType.STRING, length = 2)
 public class Compte implements Serializable { // abstract caar on va faire soit un compte courant soit un compte epargne
 
 	@Id
@@ -114,6 +115,7 @@ public class Compte implements Serializable { // abstract caar on va faire soit 
 		this.solde = solde;
 	}
 
+	@JsonBackReference
 	public User getClient() {
 		return client;
 	}

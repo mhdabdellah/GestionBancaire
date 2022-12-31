@@ -1,6 +1,19 @@
 package RIM.Banque.GestionBancaire.dto.users;
 
 public class RegisterDto {
+
+
+//	Register example for test in post man
+
+//	{
+//			"firstName":"Mohamedou",
+//			"lastName":"fi",
+//			"username":"Muhamedoufi",
+//			"email":"muhamedoufi@gmail.com",
+//			"phone":"32335832",
+//			"password":"123456",
+//			"isAdmin":"false"
+//	}
 	private String firstName;
 	private String lastName;
 	private String username;
