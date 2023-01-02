@@ -19,9 +19,9 @@ public class CompteService {
 	private CompteRepository compteRepository;
 	
 	
-	public void save(Compte compte) {
+	public Compte save(Compte compte) {
 
-		compteRepository.save(compte);
+		return compteRepository.save(compte);
 	}
 	
 	public  List<Compte> getComptes() {

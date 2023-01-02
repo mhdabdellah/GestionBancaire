@@ -25,8 +25,6 @@ import RIM.Banque.GestionBancaire.service.CompteService;
 @RestController
 @RequestMapping("/comptesmangement")
 public class CompteController {
-	
-
 	@Autowired
 	private CompteService compteService;
 
@@ -49,9 +47,10 @@ public class CompteController {
 		Compte compte =compteService.getCompteByCode(codecompte);
 		return ResponseEntity.status(HttpStatus.OK).body(compte);
 	}
-	
-	
-	
+
+
+	@CrossOrigin
+
 	@GetMapping("/comptes")
 	public Object getCompte() {
 		List<Compte> comptes = compteService.getComptes();

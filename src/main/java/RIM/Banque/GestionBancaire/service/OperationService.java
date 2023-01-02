@@ -1,5 +1,6 @@
 package RIM.Banque.GestionBancaire.service;
 
+import RIM.Banque.GestionBancaire.entity.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,5 +13,9 @@ public class OperationService {
 
     @Autowired
     OperationRepository operationRepository;
+
+    public Operation save(Operation operation){
+        return operationRepository.save(operation);
+    }
 
 }
