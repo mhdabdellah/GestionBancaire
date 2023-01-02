@@ -1,5 +1,6 @@
 package RIM.Banque.GestionBancaire.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -55,6 +56,7 @@ public class Carte {
         this.numero = numero;
     }
 
+    @JsonBackReference
     public Compte getCompte() {
         return compte;
     }

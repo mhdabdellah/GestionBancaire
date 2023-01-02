@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 //import jakarta.persistence.CascadeType;
@@ -31,6 +32,8 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "compte")
+//@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+//@DiscriminatorColumn(name = "TYPE_CPTE", discriminatorType = DiscriminatorType.STRING, length = 2)
 //@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 //@DiscriminatorColumn(name = "TYPE_CPTE", discriminatorType = DiscriminatorType.STRING, length = 2)
 public class Compte implements Serializable { // abstract caar on va faire soit un compte courant soit un compte epargne
@@ -60,6 +63,7 @@ public class Compte implements Serializable { // abstract caar on va faire soit 
 	@OneToMany(mappedBy = "compte", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Carte> cartes = new HashSet<>();
 
+
 	@OneToMany(mappedBy = "compte", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Operation> operations = new HashSet<>();
 
@@ -81,6 +85,16 @@ public class Compte implements Serializable { // abstract caar on va faire soit 
 		this.cartes = cartes;
 		this.operations = operations;
 		this.statuesCompte = statuesCompte;
+	}
+
+	public Compte(Long codeCompte, Date dateCreation, String etat, double solde, User client,StatuesCompte statuesCompte) {
+		this.codeCompte = codeCompte;
+		this.dateCreation = dateCreation;
+		this.etat = etat;
+		this.solde = solde;
+		this.client = client;
+		this.statuesCompte = statuesCompte;
+
 	}
 
 	public Long getCodeCompte() {
@@ -124,6 +138,7 @@ public class Compte implements Serializable { // abstract caar on va faire soit 
 		this.client = client;
 	}
 
+	@JsonManagedReference
 	public Set<Carte> getCartes() {
 		return cartes;
 	}
@@ -132,6 +147,7 @@ public class Compte implements Serializable { // abstract caar on va faire soit 
 		this.cartes = cartes;
 	}
 
+	@JsonManagedReference
 	public Set<Operation> getOperations() {
 		return operations;
 	}

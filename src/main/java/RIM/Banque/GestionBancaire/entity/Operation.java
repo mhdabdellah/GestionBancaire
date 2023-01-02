@@ -2,6 +2,7 @@ package RIM.Banque.GestionBancaire.entity;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -26,7 +27,7 @@ public class Operation {
     private String numeroOperation;
 
     @Column(length = 60)
-    private String montant;
+    private double montant;
 
     @Column(length = 60)
     private String type;
@@ -46,7 +47,7 @@ public class Operation {
         super();
     }
 
-    public Operation(Long id, String numeroOperation, String montant, String type, Date dateOperation, Compte compte,
+    public Operation(Long id, String numeroOperation, double montant, String type, Date dateOperation, Compte compte,
             TypeOperation typeOperation) {
         this.id = id;
         this.numeroOperation = numeroOperation;
@@ -73,11 +74,11 @@ public class Operation {
         this.numeroOperation = numeroOperation;
     }
 
-    public String getMontant() {
+    public double getMontant() {
         return montant;
     }
 
-    public void setMontant(String montant) {
+    public void setMontant(double montant) {
         this.montant = montant;
     }
 
@@ -97,6 +98,7 @@ public class Operation {
         this.dateOperation = dateOperation;
     }
 
+    @JsonBackReference
     public Compte getCompte() {
         return compte;
     }
