@@ -6,12 +6,7 @@ import RIM.Banque.GestionBancaire.repository.CompteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 //
 //import com.springboot.blog.entity.Compte;
 //import com.springboot.blog.payload.ConsulteDto;
@@ -24,7 +19,7 @@ import RIM.Banque.GestionBancaire.dto.comptes.OperationOnComptDto;
 import RIM.Banque.GestionBancaire.dto.comptes.VirementDto;
 import RIM.Banque.GestionBancaire.entity.Compte;
 import RIM.Banque.GestionBancaire.service.CompteService;
-
+//localhost:9000/comptesmangement/comptes
 
 @CrossOrigin("*")
 @RestController
@@ -49,8 +44,8 @@ public class CompteController {
 		compteService.save(compte);
 		return ResponseEntity.status(HttpStatus.OK).body("la compte est bien Cree");
 	}
-	@GetMapping("/searchcompte")
-	public Object searchcompte(Long codecompte) {
+	@GetMapping("/searchcompte/{codecompte}")
+	public Object searchcompte(@PathVariable Long codecompte) {
 		Compte compte =compteService.getCompteByCode(codecompte);
 		return ResponseEntity.status(HttpStatus.OK).body(compte);
 	}
