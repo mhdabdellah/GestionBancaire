@@ -19,11 +19,12 @@ import RIM.Banque.GestionBancaire.dto.comptes.OperationOnComptDto;
 import RIM.Banque.GestionBancaire.dto.comptes.VirementDto;
 import RIM.Banque.GestionBancaire.entity.Compte;
 import RIM.Banque.GestionBancaire.service.CompteService;
-//localhost:9000/comptesmangement/comptes
+//localhost:9000/comptes
 
-@CrossOrigin("*")
+
+@CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/comptesmangement")
+//@RequestMapping("/comptesmangement")
 public class CompteController {
 	@Autowired
 	private CompteService compteService;
@@ -31,27 +32,27 @@ public class CompteController {
 
 
 
-	@GetMapping("/")
+	@RequestMapping(method=RequestMethod.POST,value = "/test")
 	public Object yyy() {
 		String test = "Hello and w46ye4 w4yw4y4y the ywyey htry5";
 		return ResponseEntity.status(HttpStatus.OK).body(test);
 	}
-	
-	@PostMapping("/ouvertirCompte")
+
+	@RequestMapping(method=RequestMethod.POST,value = "/ouvertureCompte")
 	public Object setCompte(@RequestBody Compte compte) {
 		compteService.save(compte);
 		return ResponseEntity.status(HttpStatus.OK).body("la compte est bien Cree");
 	}
-	@GetMapping("/searchcompte/{codecompte}")
+
+	@RequestMapping(method=RequestMethod.PUT,value = "/searchcompte/{codecompte}")
 	public Object searchcompte(@PathVariable Long codecompte) {
 		Compte compte =compteService.getCompteByCode(codecompte);
 		return ResponseEntity.status(HttpStatus.OK).body(compte);
 	}
 
 
-	@CrossOrigin
-
-	@GetMapping("/comptes")
+	 @RequestMapping(method=RequestMethod.GET,value = "/comptes")
+	 @CrossOrigin(origins = "*")
 	public Object getCompte() {
 		List<Compte> comptes = compteService.getComptes();
 		return ResponseEntity.status(HttpStatus.OK).body(comptes);
