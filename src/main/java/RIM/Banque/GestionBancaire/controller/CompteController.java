@@ -1,6 +1,6 @@
 package RIM.Banque.GestionBancaire.controller;
 
-import java.util.List;
+import java.util.*;
 
 import RIM.Banque.GestionBancaire.repository.CompteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +19,7 @@ import RIM.Banque.GestionBancaire.dto.comptes.OperationOnComptDto;
 import RIM.Banque.GestionBancaire.dto.comptes.VirementDto;
 import RIM.Banque.GestionBancaire.entity.Compte;
 import RIM.Banque.GestionBancaire.service.CompteService;
+import org.springframework.web.servlet.mvc.method.annotation.JsonViewResponseBodyAdvice;
 //localhost:9000/comptesmangement/comptes
 
 @CrossOrigin("*")
@@ -27,7 +28,8 @@ import RIM.Banque.GestionBancaire.service.CompteService;
 public class CompteController {
 	@Autowired
 	private CompteService compteService;
-
+	@Autowired
+	private CompteRepository compteRepository;
 
 
 
