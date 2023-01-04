@@ -44,7 +44,7 @@ public class CompteController {
 		return ResponseEntity.status(HttpStatus.OK).body("la compte est bien Cree");
 	}
 
-	@RequestMapping(method=RequestMethod.PUT,value = "/searchcompte/{codecompte}")
+	@RequestMapping(method=RequestMethod.GET,value = "/searchcompte/{codecompte}")
 	public Object searchcompte(@PathVariable Long codecompte) {
 		Compte compte =compteService.getCompteByCode(codecompte);
 		return ResponseEntity.status(HttpStatus.OK).body(compte);

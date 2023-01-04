@@ -40,7 +40,9 @@ public class SpringSecurityConfiguration {
         http.csrf().disable().cors().disable()
                 .authorizeHttpRequests()
                 // .requestMatchers("/users/getAllUsers").permitAll()
-                .requestMatchers("/users/login", "/users/getAllUsers", "/users/registerNewUser").permitAll()
+                .requestMatchers("/users/login",
+                         "/users/registerNewUser",
+                        "/comptes","/ouvertureCompte","/searchcompte/{codecompte}").permitAll()
                 .anyRequest().authenticated()
                 // .anyRequest().permitAll()
                 .and().httpBasic();
@@ -50,7 +52,6 @@ public class SpringSecurityConfiguration {
 
     @Bean
     public AuthenticationManager authManager(HttpSecurity httpSecurity) throws Exception {
-
         return httpSecurity
                 .getSharedObject(AuthenticationManagerBuilder.class)
                 .userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder()).and().build();
