@@ -21,7 +21,11 @@ import jakarta.annotation.PostConstruct;
 
 @CrossOrigin("*")
 @RestController
+<<<<<<< Updated upstream
 @RequestMapping("/users/")
+=======
+@RequestMapping("users")
+>>>>>>> Stashed changes
 public class UserController {
 
 	@Autowired

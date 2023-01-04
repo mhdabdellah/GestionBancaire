@@ -38,12 +38,22 @@ public class SpringSecurityConfiguration {
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.csrf().disable().cors().disable()
+<<<<<<< Updated upstream
                 .authorizeHttpRequests()
                 // .requestMatchers("/users/getAllUsers").permitAll()
                 .requestMatchers("/users/login", "/users/getAllUsers", "/users/registerNewUser").permitAll()
                 .anyRequest().authenticated()
                 // .anyRequest().permitAll()
                 .and().httpBasic();
+=======
+        
+            .authorizeHttpRequests()
+            .requestMatchers("/users/login").permitAll()
+            // .pathMatchers("/bars/pk").permitAll()
+            // .anyRequest().permitAll()
+            .anyRequest().authenticated()
+            .and().httpBasic();
+>>>>>>> Stashed changes
 
         return http.build();
     }
