@@ -86,58 +86,64 @@ public class UserService implements UserDetailsService {
 	}
 
 	public void initRolesAndUser() {
-		Role admin = new Role();
-		admin.setName("Admin");
-		roleRepository.save(admin);
+		try {
+			Role admin = new Role();
+			admin.setName("Admin");
+			roleRepository.save(admin);
 
-		Role client = new Role();
-		client.setName("Client");
-		roleRepository.save(client);
+			Role client = new Role();
+			client.setName("Client");
+			roleRepository.save(client);
 
-		Contact mohamedContact1 = new Contact();
-		mohamedContact1.setEmail("mohamed1@gmail.com");
-		mohamedContact1.setTelephone("26262626");
-		contactRepository.save(mohamedContact1);
+			Contact mohamedContact1 = new Contact();
+			mohamedContact1.setEmail("mohamed1@gmail.com");
+			mohamedContact1.setTelephone("26262626");
+			contactRepository.save(mohamedContact1);
 
-		Contact mohamedContact2 = new Contact();
-		mohamedContact2.setEmail("mohamed2@gmail.com");
-		mohamedContact2.setTelephone("22262626");
-		contactRepository.save(mohamedContact2);
+			Contact mohamedContact2 = new Contact();
+			mohamedContact2.setEmail("mohamed2@gmail.com");
+			mohamedContact2.setTelephone("22262626");
+			contactRepository.save(mohamedContact2);
 
-		Contact abdellahiContact2 = new Contact();
-		abdellahiContact2.setEmail("abdellahi2@gmail.com");
-		abdellahiContact2.setTelephone("28262626");
-		contactRepository.save(abdellahiContact2);
+			Contact abdellahiContact2 = new Contact();
+			abdellahiContact2.setEmail("abdellahi2@gmail.com");
+			abdellahiContact2.setTelephone("28262626");
+			contactRepository.save(abdellahiContact2);
 
-		Contact abdellahiContact1 = new Contact();
-		mohamedContact1.setEmail("abdellahi1@gmail.com");
-		mohamedContact1.setTelephone("27262626");
-		contactRepository.save(abdellahiContact1);
+			Contact abdellahiContact1 = new Contact();
+			mohamedContact1.setEmail("abdellahi1@gmail.com");
+			mohamedContact1.setTelephone("27262626");
+			contactRepository.save(abdellahiContact1);
 
-		User adminUser = new User();
-		adminUser.setUsername("Mohamed");
+			User adminUser = new User();
 
-		adminUser.setPassword(bCryptPasswordEncoder.encode("sidi1212"));
-		Set<Role> adminRoles = new HashSet<>();
-		adminRoles.add(admin);
-		adminUser.setRoles(adminRoles);
-		Set<Contact> mohamedContacts = new HashSet<>();
-		mohamedContacts.add(mohamedContact1);
-		mohamedContacts.add(mohamedContact2);
-		adminUser.setContacts(mohamedContacts);
-		userRepository.save(adminUser);
+			adminUser.setUsername("Mohamed");
 
-		User employeeUser = new User();
-		employeeUser.setUsername("Abdellahi");
-		employeeUser.setPassword(bCryptPasswordEncoder.encode("sidi1212"));
-		Set<Role> userRoles = new HashSet<>();
-		userRoles.add(client);
-		employeeUser.setRoles(userRoles);
-		Set<Contact> abdellahiContacts = new HashSet<>();
-		abdellahiContacts.add(abdellahiContact1);
-		abdellahiContacts.add(abdellahiContact2);
-		employeeUser.setContacts(abdellahiContacts);
-		userRepository.save(employeeUser);
+			adminUser.setPassword(bCryptPasswordEncoder.encode("sidi1212"));
+			Set<Role> adminRoles = new HashSet<>();
+			adminRoles.add(admin);
+			adminUser.setRoles(adminRoles);
+			Set<Contact> mohamedContacts = new HashSet<>();
+			mohamedContacts.add(mohamedContact1);
+			mohamedContacts.add(mohamedContact2);
+			adminUser.setContacts(mohamedContacts);
+			userRepository.save(adminUser);
+
+			User employeeUser = new User();
+			employeeUser.setUsername("Abdellahi");
+			employeeUser.setPassword(bCryptPasswordEncoder.encode("sidi1212"));
+			Set<Role> userRoles = new HashSet<>();
+			userRoles.add(client);
+			employeeUser.setRoles(userRoles);
+			Set<Contact> abdellahiContacts = new HashSet<>();
+			abdellahiContacts.add(abdellahiContact1);
+			abdellahiContacts.add(abdellahiContact2);
+			employeeUser.setContacts(abdellahiContacts);
+			userRepository.save(employeeUser);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+
+		}
 	}
 
 	@Override
@@ -172,6 +178,7 @@ public class UserService implements UserDetailsService {
 
 			ResponseLoginDto responseAfterLogin = new ResponseLoginDto();
 			responseAfterLogin.setUsername(user.getUsername());
+			responseAfterLogin.setRoles(user.getRoles());
 			// List<Contact> contact = user.getContacts();
 			// responseAfterLogin.setEmail(user.getEmail());
 			responseAfterLogin.setToken(basicAuthToken);
