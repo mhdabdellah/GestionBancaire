@@ -21,11 +21,7 @@ import jakarta.annotation.PostConstruct;
 
 @CrossOrigin("*")
 @RestController
-<<<<<<< Updated upstream
 @RequestMapping("/users/")
-=======
-@RequestMapping("users")
->>>>>>> Stashed changes
 public class UserController {
 
 	@Autowired
@@ -40,6 +36,12 @@ public class UserController {
 	public ResponseEntity<User> registerUser(@RequestBody RegisterDto registerDto) {
 		// return userService.registerNewUser(user);
 		return ResponseEntity.ok().body(userService.registerNewUser(registerDto));
+	}
+
+	@PostMapping("deleteUser")
+	public ResponseEntity<Boolean> deleteUser(@RequestBody Long userid) {
+		// return userService.registerNewUser(user);
+		return ResponseEntity.ok().body(userService.deletUser(userid));
 	}
 
 	@PostMapping("login")
@@ -58,6 +60,20 @@ public class UserController {
 	public ResponseEntity<List<User>> getAllUsers() {
 		// return "This URL Is only accessible to Admin";
 		return ResponseEntity.ok().body(userService.getAllUsers());
+	}
+
+	@GetMapping({ "getUserById" })
+	// @PreAuthorize("hasRole('Admin')")
+	public ResponseEntity<User> getUserById(@RequestBody Long userid) {
+		// return "This URL Is only accessible to Admin";
+		return ResponseEntity.ok().body(userService.getUserById(userid));
+	}
+
+	@GetMapping({ "getUserByName" })
+	// @PreAuthorize("hasRole('Admin')")
+	public ResponseEntity<User> getUserByName(@RequestBody String userName) {
+		// return "This URL Is only accessible to Admin";
+		return ResponseEntity.ok().body(userService.getUserByName(userName));
 	}
 
 	@GetMapping({ "forAdmin" })

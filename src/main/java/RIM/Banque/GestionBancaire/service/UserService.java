@@ -37,7 +37,6 @@ import RIM.Banque.GestionBancaire.repository.UserRepository;
 @Transactional
 public class UserService implements UserDetailsService {
 
-
 	@Autowired
 	private UserRepository userRepository;
 
@@ -173,6 +172,20 @@ public class UserService implements UserDetailsService {
 
 		}
 
+	}
+
+	public boolean deletUser(Long userid) {
+		userRepository.deleteById(userid);
+		boolean result = true;
+		return result;
+	}
+
+	public User getUserById(Long userid) {
+		return userRepository.findById(userid).get();
+	}
+
+	public User getUserByName(String userName) {
+		return userRepository.findByUsername(userName);
 	}
 
 	// @Bean

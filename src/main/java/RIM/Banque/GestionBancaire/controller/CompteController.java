@@ -16,103 +16,90 @@ import org.springframework.web.bind.annotation.*;
 
 import RIM.Banque.GestionBancaire.dto.comptes.ConsulteCompteDto;
 import RIM.Banque.GestionBancaire.dto.comptes.OperationOnComptDto;
+import RIM.Banque.GestionBancaire.dto.comptes.PaymentDto;
 import RIM.Banque.GestionBancaire.dto.comptes.VirementDto;
+import RIM.Banque.GestionBancaire.entity.Carte;
 import RIM.Banque.GestionBancaire.entity.Compte;
+import RIM.Banque.GestionBancaire.service.CarteService;
 import RIM.Banque.GestionBancaire.service.CompteService;
 //localhost:9000/comptes
-
+import RIM.Banque.GestionBancaire.service.OperationService;
 
 @CrossOrigin(origins = "*")
 @RestController
-//@RequestMapping("/comptesmangement")
+// @RequestMapping("/comptesmangement")
 public class CompteController {
 	@Autowired
 	private CompteService compteService;
 
+	@Autowired
+	private CarteService carteService;
 
-
-
-	@RequestMapping(method=RequestMethod.POST,value = "/test")
+	@RequestMapping(method = RequestMethod.POST, value = "/test")
 	public Object yyy() {
 		String test = "Hello and w46ye4 w4yw4y4y the ywyey htry5";
 		return ResponseEntity.status(HttpStatus.OK).body(test);
 	}
 
-	@RequestMapping(method=RequestMethod.POST,value = "/ouvertureCompte")
+	@RequestMapping(method = RequestMethod.POST, value = "/ouvertureCompte")
 	public Object setCompte(@RequestBody Compte compte) {
 		compteService.save(compte);
 		return ResponseEntity.status(HttpStatus.OK).body("la compte est bien Cree");
 	}
 
-	@RequestMapping(method=RequestMethod.GET,value = "/searchcompte/{codecompte}")
+	@RequestMapping(method = RequestMethod.GET, value = "/searchcompte/{codecompte}")
 	public Object searchcompte(@PathVariable Long codecompte) {
-		Compte compte =compteService.getCompteByCode(codecompte);
+		Compte compte = compteService.getCompteByCode(codecompte);
 		return ResponseEntity.status(HttpStatus.OK).body(compte);
 	}
 
-
-	 @RequestMapping(method=RequestMethod.GET,value = "/comptes")
-	 @CrossOrigin(origins = "*")
+	@RequestMapping(method = RequestMethod.GET, value = "/comptes")
+	@CrossOrigin(origins = "*")
 	public Object getCompte() {
 		List<Compte> comptes = compteService.getComptes();
 		return ResponseEntity.status(HttpStatus.OK).body(comptes);
 	}
-	
+
 	@GetMapping("/consulterSold")
 	public Object getAcountSold(@RequestBody ConsulteCompteDto consulteDto) {
 		Compte compte = compteService.getCompteByCode(consulteDto.getCodeCompte());
 		double curentSolde = compte.getSolde();
 		return ResponseEntity.status(HttpStatus.OK).body(curentSolde);
 	}
-	
-	
-	@PostMapping("/retirerMontant")// codeCompte montant date => historique 
-	public Object retirerFromCompte(@RequestBody OperationOnComptDto operationDto) {
-		Compte compte = compteService.getCompteByCode(operationDto.getCodeCompte());
-		double curentSolde = compte.getSolde();
-		double finalSold =  curentSolde - operationDto.getMontant();
-		compte.setSolde(finalSold);
-		compteService.save(compte);
-//		compteService.save(compte);
-		return ResponseEntity.status(HttpStatus.OK).body("la compte est bien Cree");
-	}
-	
-	
-	
-	@PostMapping("/deposerMontant")// codeCompte montant date => historique  VersementDto
-	public Object deposerToCompte(@RequestBody OperationOnComptDto operationDto) {
-		Compte compte = compteService.getCompteByCode(operationDto.getCodeCompte());
-		double curentSolde = compte.getSolde();
-		double finalSold =  curentSolde + operationDto.getMontant();
-		compte.setSolde(finalSold);
-		compteService.save(compte);
-		return ResponseEntity.status(HttpStatus.OK).body("la compte est bien ajoute");
-	}
-	
-	@PostMapping("/virementMontant")// codeCompte montant date => historique  VersementDto
-	public Object VirementMontant(@RequestBody VirementDto virementDto) {
-		Compte compteSource = compteService.getCompteByCode(virementDto.getCodeCompteSource());
-		Compte compteDestination = compteService.getCompteByCode(virementDto.getCodeCompteDestination());
-		
-		
-		double compteSourceSolde = compteSource.getSolde();
-		double compteSourcefinalSold =  compteSourceSolde - virementDto.getMontant();
-		compteSource.setSolde(compteSourcefinalSold); 
-		compteService.save(compteSource);
-		
-		double compteDestinationSolde = compteDestination.getSolde();
-		double compteDestinationfinalSold =  compteDestinationSolde + virementDto.getMontant();
-		compteDestination.setSolde(compteDestinationfinalSold); 
-		compteService.save(compteDestination);
-		
-		return ResponseEntity.status(HttpStatus.OK).body("le virment est bien effectuee");
-	}
-	
-//	@GetMapping("/historique") // compte
-//	public Object getHistoriqueCompte() {
-//		List<Compte> comptes = compteService.getComptes();
-//		return ResponseEntity.status(HttpStatus.OK).body(comptes);
-//	}
+
+	// @PostMapping("paymentEnLigne") // codeCompte montant date => historique
+	// VersementDto
+	// public Object paymentEnLigne(@RequestBody PaymentDto paymentDto) {
+	// Carte carte = carteService.getCarteByNumero(paymentDto.getNumeroCarte());
+	// Compte compteSource = compteService.getCompteByCarte(carte);
+	// Compte compteDestination =
+	// compteService.getCompteByCode(paymentDto.getCodeCompteDestination());
+	// double compteSourceSolde = compteSource.getSolde();
+	// double compteDestinationSolde = compteDestination.getSolde();
+	// double montant = paymentDto.getMontant();
+	// String message;
+	// if (montant < compteSourceSolde) {
+	// double compteSourcefinalSold = compteSourceSolde - montant;
+	// compteSource.setSolde(compteSourcefinalSold);
+	// compteService.save(compteSource);
+	// double compteDestinationfinalSold = compteDestinationSolde + montant;
+	// compteDestination.setSolde(compteDestinationfinalSold);
+	// compteService.save(compteDestination);
+
+	// message = "un virment de " + montant + "vers le client " +
+	// compteSource.getClient().getFirstName() + ' '
+	// + compteSource.getClient().getLastName() + "a ete bien effectuée";
+	// } else {
+	// message = "ce montant n'est pas dans le Compte pour effectuer un payment ";
+	// }
+
+	// return ResponseEntity.status(HttpStatus.OK).body(message);
+	// }
+
+	// @GetMapping("/historique") // compte
+	// public Object getHistoriqueCompte() {
+	// List<Compte> comptes = compteService.getComptes();
+	// return ResponseEntity.status(HttpStatus.OK).body(comptes);
+	// }
 
 }
-
