@@ -2,6 +2,7 @@ package RIM.Banque.GestionBancaire.service;
 
 import java.util.List;
 
+import RIM.Banque.GestionBancaire.entity.StatuesCompte;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +35,10 @@ public class CompteService {
 		return compte;
 	}
 
+	public List<Compte> getCreatedAccounts(){
+		List<Compte> accounts = compteRepository.findByStatuesCompte(StatuesCompte.CREATED);
+		return accounts;
+	}
 
 
 }

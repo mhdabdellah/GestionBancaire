@@ -188,7 +188,6 @@ public class UserService implements UserDetailsService {
 		}
 
 	}
-
 	// @Bean
 	// public String getEncodedPassword(String password) {
 	// return bCryptPasswordEncoder.encode(password);

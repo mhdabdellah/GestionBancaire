@@ -34,7 +34,11 @@ public class CompteController {
 	private CompteRepository compteRepository;
 
 
-
+	@RequestMapping(method=RequestMethod.GET,value = "/createdAccounts")
+	public Object CreatedAccounts() {
+     List<Compte> comptes = compteService.getCreatedAccounts();
+		return ResponseEntity.status(HttpStatus.OK).body(comptes);
+	}
 	@RequestMapping(method=RequestMethod.POST,value = "/test")
 	public Object yyy() {
 		String test = "Hello and w46ye4 w4yw4y4y the ywyey htry5";

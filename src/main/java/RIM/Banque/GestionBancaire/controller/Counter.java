@@ -25,8 +25,9 @@ public class Counter {
     public Map<String, Double> count() {
         HashMap<String, Double> map = new HashMap<>();
 
-        map.put("countAccounts", (double) compteRepository.count());
-        map.put("countUsers", (double) userRepository.count());
+        map.put("Total comptes", (double) compteRepository.count());
+        map.put("Total utilisateur", (double) userRepository.count());
+
 //		map.put("aa", "bb");
         return map;
     }
