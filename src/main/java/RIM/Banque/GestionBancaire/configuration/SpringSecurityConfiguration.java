@@ -39,12 +39,12 @@ public class SpringSecurityConfiguration {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.csrf().disable().cors().disable()
                 .authorizeHttpRequests()
-                // .requestMatchers("/users/getAllUsers").permitAll()
-                .requestMatchers("/users/login",
-                         "/users/registerNewUser",
-                        "/comptes","/ouvertureCompte","/searchcompte/{codecompte}","/api/counter/").permitAll()
-                .anyRequest().authenticated()
-                // .anyRequest().permitAll()
+                .requestMatchers("/users/**", "/comptesmangement/**").permitAll()
+                // .requestMatchers("/users/login",
+                // "/users/registerNewUser",
+                // "/comptes","/ouvertureCompte","/searchcompte/{codecompte}","/api/counter/").permitAll()
+                // .anyRequest().authenticated()
+                .anyRequest().permitAll()
                 .and().httpBasic();
 
         return http.build();
