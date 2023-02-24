@@ -44,8 +44,8 @@ public class SpringSecurityConfiguration {
                         "/users/registerNewUser",
                         "/comptes", "/ouvertureCompte", "/searchcompte/{codecompte}")
                 .permitAll()
-                .anyRequest().authenticated()
-                // .anyRequest().permitAll()
+                // .anyRequest().authenticated()
+                .anyRequest().permitAll()
                 .and().httpBasic();
 
         return http.build();

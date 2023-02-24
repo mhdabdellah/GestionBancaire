@@ -14,12 +14,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import RIM.Banque.GestionBancaire.dto.comptes.OperationOnComptDto;
+import RIM.Banque.GestionBancaire.dto.comptes.PaymentDto;
 import RIM.Banque.GestionBancaire.dto.comptes.VirementDto;
 import RIM.Banque.GestionBancaire.entity.Compte;
 import RIM.Banque.GestionBancaire.entity.Operation;
 import RIM.Banque.GestionBancaire.entity.TypeOperation;
 import RIM.Banque.GestionBancaire.service.CompteService;
 import RIM.Banque.GestionBancaire.service.OperationService;
+import RIM.Banque.GestionBancaire.service.CarteService;
+import RIM.Banque.GestionBancaire.entity.Carte;
 
 @CrossOrigin("*")
 @RestController
@@ -31,6 +34,9 @@ public class OperationController {
 
     @Autowired
     private CompteService compteService;
+
+    @Autowired
+    private CarteService carteService;
 
     @GetMapping({ "getAllOperations" })
     // @PreAuthorize("hasRole('Admin')")
@@ -68,7 +74,7 @@ public class OperationController {
         double compteSourceSolde = compteSource.getSolde();
         double compteDestinationSolde = compteDestination.getSolde();
         double montant = virementDto.getMontant();
-        String message;
+        boolean message = false;
         if (montant < compteSourceSolde) {
             double compteSourcefinalSold = compteSourceSolde - montant;
             compteSource.setSolde(compteSourcefinalSold);
@@ -84,18 +90,23 @@ public class OperationController {
             double compteDestinationfinalSold = compteDestinationSolde + montant;
             compteDestination.setSolde(compteDestinationfinalSold);
             compteService.save(compteDestination);
+            message = true;
 
-            message = "un virment de " + montant + "vers le client " + compteSource.getClient().getFirstName() + ' '
-                    + compteSource.getClient().getLastName() + "a ete bien effectuée";
-        } else {
-            message = "vous n'avez pas ce montant dans votre Compte pour effectuer un virement";
+            // message = "un virment de " + montant + "vers le client " +
+            // compteSource.getClient().getFirstName() + ' '
+            // + compteSource.getClient().getLastName() + "a ete bien effectuée";
         }
+        // else {
+        // // message = "vous n'avez pas ce montant dans votre Compte pour effectuer un
+        // virement";
+        // }
 
         return ResponseEntity.status(HttpStatus.OK).body(message);
     }
 
-    @PostMapping("/deposerMontant") // codeCompte montant date => historique VersementDto
+    @PostMapping("deposerMontant") // codeCompte montant date => historique VersementDto
     public Object deposerToCompte(@RequestBody OperationOnComptDto operationDto) {
+        boolean result = false;
         Compte compte = compteService.getCompteByCode(operationDto.getCodeCompte());
         double curentSolde = compte.getSolde();
         double montant = operationDto.getMontant();
@@ -110,7 +121,8 @@ public class OperationController {
         operation.setType("depot");
         operation.setTypeOperation(TypeOperation.VERSEMENT);
         operationService.save(operation);
-        return ResponseEntity.status(HttpStatus.OK).body("la compte est bien ajoute");
+        result = true;
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @PostMapping("retirerMontant") // codeCompte montant date => historique
@@ -118,7 +130,7 @@ public class OperationController {
         Compte compte = compteService.getCompteByCode(operationDto.getCodeCompte());
         double curentSolde = compte.getSolde();
         double montant = operationDto.getMontant();
-        String message;
+        boolean message = false;
         if (montant < curentSolde) {
             double finalSold = curentSolde - montant;
             compte.setSolde(finalSold);
@@ -131,12 +143,46 @@ public class OperationController {
             operation.setType("retirait");
             operation.setTypeOperation(TypeOperation.RETRAIT);
             operationService.save(operation);
-            message = "le montant" + montant + "a ete bien retirée";
-        } else {
-            message = "vous n'avez pas ce montant dans votre Compte";
+            message = true;
+            // message = "le montant" + montant + "a ete bien retirée";
         }
+        // else {
+        // message = "vous n'avez pas ce montant dans votre Compte";
+        // }
 
         // compteService.save(compte);
+        return ResponseEntity.status(HttpStatus.OK).body(message);
+    }
+
+    @PostMapping("paymentEnLigne") // codeCompte montant date => historique
+    // VersementDto
+    public Object paymentEnLigne(@RequestBody PaymentDto paymentDto) {
+        Carte carte = carteService.getCarteByNumero(paymentDto.getNumeroCarte());
+        Compte compteSource = carte.getCompte();
+        Compte compteDestination = compteService.getCompteByCode(paymentDto.getCodeCompteDestination());
+        double compteSourceSolde = compteSource.getSolde();
+        double compteDestinationSolde = compteDestination.getSolde();
+        double montant = paymentDto.getMontant();
+        boolean message = false;
+        if (montant < compteSourceSolde) {
+            double compteSourcefinalSold = compteSourceSolde - montant;
+            compteSource.setSolde(compteSourcefinalSold);
+            compteService.save(compteSource);
+            double compteDestinationfinalSold = compteDestinationSolde + montant;
+            compteDestination.setSolde(compteDestinationfinalSold);
+            compteService.save(compteDestination);
+
+            message = true;
+
+            // message = "un virment de " + montant + "vers le client " +
+            // compteSource.getClient().getFirstName() + ' '
+            // + compteSource.getClient().getLastName() + "a ete bien effectuée";
+        }
+
+        // else {
+        // message = "ce montant n'est pas dans le Compte pour effectuer un payment ";
+        // }
+
         return ResponseEntity.status(HttpStatus.OK).body(message);
     }
 

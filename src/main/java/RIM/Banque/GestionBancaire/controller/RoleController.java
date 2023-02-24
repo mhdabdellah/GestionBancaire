@@ -15,35 +15,35 @@ import RIM.Banque.GestionBancaire.service.RoleService;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/rolesmangement")
+@RequestMapping("/rolesmangement/")
 
 public class RoleController {
 
 	@Autowired
 	RoleService roleService;
 
-	@PostMapping("/newrole")
+	@PostMapping("newrole")
 	public ResponseEntity<?> newrole(@RequestBody Role role) {
 
 		Role response = roleService.createNewRole(role);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
-	@PostMapping("/getrole")
+	@PostMapping("getrole")
 	public ResponseEntity<?> getrole(@RequestBody Role role) {
 
 		Role response = roleService.createNewRole(role);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
-	@GetMapping("/getAllroles")
+	@GetMapping("getAllroles")
 	public ResponseEntity<?> getAllroles(@RequestBody Role role) {
 
 		Role response = roleService.createNewRole(role);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
-	@PostMapping("/deleterole")
+	@PostMapping("deleterole")
 	public ResponseEntity<?> deleterole(@RequestBody Role role) {
 
 		Role response = roleService.createNewRole(role);

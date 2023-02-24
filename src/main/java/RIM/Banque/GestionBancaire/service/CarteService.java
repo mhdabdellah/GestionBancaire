@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import RIM.Banque.GestionBancaire.entity.Carte;
+import RIM.Banque.GestionBancaire.entity.Compte;
 import RIM.Banque.GestionBancaire.repository.CarteRepository;
 
 @Service
@@ -34,7 +35,11 @@ public class CarteService {
         return carteRepository.findByCode(code).get();
     }
 
-    public List<Carte> getAllCartes(String code) {
+    public List<Carte> getCarteByCompte(Compte compte) {
+        return carteRepository.findCarteByCompte(compte);
+    }
+
+    public List<Carte> getAllCartes() {
         return carteRepository.findAll();
     }
 
