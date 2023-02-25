@@ -59,7 +59,7 @@ public class OperationController {
         return ResponseEntity.ok().body(operationService.getOperationBynumero(numeroOperation));
     }
 
-    @GetMapping({ "getOperationsByCompte" })
+    @PostMapping({ "getOperationsByCompte" })
     // @PreAuthorize("hasRole('Admin')")
     public ResponseEntity<List<Operation>> getOperationsByCompte(@RequestBody Long codeCompte) {
         // return "This URL Is only accessible to Admin";

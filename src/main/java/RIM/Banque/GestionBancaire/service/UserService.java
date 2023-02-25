@@ -167,6 +167,9 @@ public class UserService implements UserDetailsService {
 			// List<Contact> contact = user.getContacts();
 			// responseAfterLogin.setEmail(user.getEmail());
 			responseAfterLogin.setToken(basicAuthToken);
+			responseAfterLogin.setId(user.getId());
+			responseAfterLogin.setRoles(user.getRoles());
+			// responseAfterLogin.setRoles(use);
 			// httpRequest.setHeader("Authorization", basicAuth);
 			return responseAfterLogin;
 

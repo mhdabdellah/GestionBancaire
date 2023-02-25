@@ -8,7 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import RIM.Banque.GestionBancaire.entity.Carte;
 import RIM.Banque.GestionBancaire.entity.Compte;
+import RIM.Banque.GestionBancaire.entity.User;
 import RIM.Banque.GestionBancaire.repository.CompteRepository;
+import RIM.Banque.GestionBancaire.repository.UserRepository;
 
 @Service
 @Transactional
@@ -16,6 +18,9 @@ public class CompteService {
 
 	@Autowired
 	private CompteRepository compteRepository;
+
+	@Autowired
+	private UserRepository userRepository;
 
 	public Compte save(Compte compte) {
 
@@ -31,6 +36,18 @@ public class CompteService {
 		if (compte == null)
 			throw new RuntimeException("Compte est introuvable");
 		return compte;
+	}
+
+	public Compte getCompteByUser(Long idUser) {
+		User user = userRepository.findById(idUser).get();
+		if(user != null){
+			Compte compte = compteRepository.findByClient(user);
+			if (compte == null)
+				throw new RuntimeException("Compte est introuvable");
+			return compte;
+		}else{
+			throw new RuntimeException("User est introuvable");
+		}
 	}
 
 	// public Compte getCompteByCarte(Carte carte) {

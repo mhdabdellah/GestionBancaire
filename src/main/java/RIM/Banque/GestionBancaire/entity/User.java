@@ -130,7 +130,7 @@ public class User {
     this.password = password;
   }
 
-  @JsonManagedReference
+  @JsonBackReference
   public Set<Role> getRoles() {
     return roles;
   }

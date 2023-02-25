@@ -5,6 +5,7 @@ import java.util.List;
 import RIM.Banque.GestionBancaire.repository.CompteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 //
@@ -58,6 +59,12 @@ public class CompteController {
 	public Object getCompte() {
 		List<Compte> comptes = compteService.getComptes();
 		return ResponseEntity.status(HttpStatus.OK).body(comptes);
+	}
+
+	@PostMapping("getCompteByUser")
+	public Object getCompteByUser(@RequestBody Long idUser){
+		Compte compte = compteService.getCompteByUser(idUser);
+		return ResponseEntity.status(HttpStatus.OK).body(compte);
 	}
 
 	@GetMapping("consulterSold")
