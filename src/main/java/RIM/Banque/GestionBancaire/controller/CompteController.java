@@ -1,6 +1,7 @@
 package RIM.Banque.GestionBancaire.controller;
 
 import java.util.List;
+import java.util.Set;
 
 import RIM.Banque.GestionBancaire.repository.CompteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,9 +63,9 @@ public class CompteController {
 	}
 
 	@PostMapping("getCompteByUser")
-	public Object getCompteByUser(@RequestBody Long idUser){
-		Compte compte = compteService.getCompteByUser(idUser);
-		return ResponseEntity.status(HttpStatus.OK).body(compte);
+	public Object getCompteByUser(@RequestBody Long idUser) {
+		Set<Compte> comptes = compteService.getCompteByUser(idUser);
+		return ResponseEntity.status(HttpStatus.OK).body(comptes);
 	}
 
 	@GetMapping("consulterSold")

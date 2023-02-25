@@ -1,6 +1,7 @@
 package RIM.Banque.GestionBancaire.service;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,14 +39,15 @@ public class CompteService {
 		return compte;
 	}
 
-	public Compte getCompteByUser(Long idUser) {
+	public Set<Compte> getCompteByUser(Long idUser) {
 		User user = userRepository.findById(idUser).get();
-		if(user != null){
-			Compte compte = compteRepository.findByClient(user);
-			if (compte == null)
+		if (user != null) {
+			// Compte compte = compteRepository.findByClient(user);
+			Set<Compte> comptes = user.getComptes();
+			if (comptes == null)
 				throw new RuntimeException("Compte est introuvable");
-			return compte;
-		}else{
+			return comptes;
+		} else {
 			throw new RuntimeException("User est introuvable");
 		}
 	}
