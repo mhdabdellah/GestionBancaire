@@ -42,7 +42,7 @@ public class SpringSecurityConfiguration {
                 // .requestMatchers("/users/getAllUsers").permitAll()
                 .requestMatchers("/users/login",
                         "/users/registerNewUser",
-                        "/comptes", "/ouvertureCompte", "/searchcompte/{codecompte}")
+                        "/comptes", "/ouvertureCompte", "/searchcompte/{codecompte}", "/getCompteByUser")
                 .permitAll()
                 // .anyRequest().authenticated()
                 .anyRequest().permitAll()
